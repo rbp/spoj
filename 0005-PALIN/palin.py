@@ -4,6 +4,7 @@
 # TODO:
 # - all in one function (including import)
 # - switch from while to for?
+# - remove "int()" in main()?
 
 def find_palindrome(k):
     # Returns the next palindrome strictly larger than k
@@ -22,8 +23,8 @@ def find_palindrome(k):
         "9": "10"
         }
 
-    # FIXME: *strictly* larger than k! We need to start one above.#
-    # -> we can do this by starting w/ carry=True (and have it as a function argument)
+    # *strictly* larger than k
+    digits[-1] = plus_one[digits[-1]]
     
     len_digits = len(digits)
     # First pass goes up to midpoint, inclusive.
@@ -37,7 +38,6 @@ def find_palindrome(k):
             carry = False
             
         if digits[i_back] == "10":
-            # TODO: Merge this and previous if
             digits[i_back] = digits[i_front][-1]
             carry = True
 
@@ -72,21 +72,18 @@ def find_palindrome(k):
         else:
             digits[i_back] = digits[i_front] = d
             carry = False
-        len_digits += 1
+        i += 1
 
     if carry:
         return "1{}1".format("0"*(len(digits)-1))
-
-    # DEBUG
-    assert is_palindrome(digits)
 
     return "".join(digits)
 
 def main():    
     import sys
     t = sys.stdin.readline()
-    for i in xrange(n):
-        print(find_palindrome(sys.stdin.readline()))
+    for i in range(int(t)):
+        print(find_palindrome(sys.stdin.readline().rstrip()))
 
 if __name__ == '__main__':
     main()
@@ -94,6 +91,17 @@ if __name__ == '__main__':
 
 
 # DEBUG
+
+def is_next_palindrome(k, digits):
+    int_k = int(k)
+    str_digits = "".join(digits)
+
+    i = int_k+1
+    str_i = str(i)
+    while not is_palindrome(str_i):
+        i += 1
+        str_i = str(i)
+    return str_i == str_digits
 
 def is_palindrome(digits):
     # i is an iterable (string or list)
@@ -103,7 +111,7 @@ def is_palindrome(digits):
     return True
 
 def test():
-    for i in range(1000000):
+    for i in range(100000000000000000000000000):
         find_palindrome(str(i))
 
 
