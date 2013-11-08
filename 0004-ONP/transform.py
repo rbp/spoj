@@ -8,17 +8,14 @@ import sys
 
 
 def torpn(expr):
-    """torpn(['a', '+', 'b']) == ['a', 'b', '+']
+    """torpn('a+b') == 'ab+'
     """
     operators = {'+': 0, '-': 0,
                  '*': 1, '/': 1,
                  '^': 2}
     op_stack = [[]]
     stack = [[]]
-
-    while expr:
-        char = expr.pop(0)
-
+    for char in expr:
         if char == '(':
             stack.append([])
             op_stack.append([])
@@ -37,11 +34,9 @@ def torpn(expr):
     while op_stack[-1]:
         stack[-1].append(op_stack[-1].pop())
 
-    return stack[-1]
+    return "".join(stack[-1])
 
-if __name__ == '__main__':
-    lines = sys.stdin.readlines()
-    n = int(lines[0])
-    for i in xrange(n):
-        print ''.join(torpn(list(lines[i+1].strip())))
-
+n = sys.stdin.readline()
+lines = sys.stdin.readlines()
+output = [torpn(line.rstrip()) for line in lines]
+print '\n'.join(output)
