@@ -1,12 +1,11 @@
 #!/usr/bin/env python
-
 """
 https://www.spoj.pl/problems/ONP/
 Transform algebraic expression into RPN
 """
 
-
 import sys
+
 
 def torpn(expr):
     """torpn(['a', '+', 'b']) == ['a', 'b', '+']
