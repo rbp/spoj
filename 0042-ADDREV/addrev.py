@@ -3,8 +3,8 @@ import psyco
 psyco.full()
 
 def main():
+    sys.stdin.readline()
     lines = sys.stdin.readlines()
-    lines.pop(0)
     spaces = []
 
     sys.stdout.write("\n".join(map((lambda line: spaces.append(line.index(' ')) or
@@ -15,4 +15,3 @@ def main():
                lines)))
 
 main()
-
