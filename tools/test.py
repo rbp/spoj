@@ -5,7 +5,8 @@ Tests a spoj solution.
 
 # TODO
 # - time execution
-# - run several times
+#   - context manager
+#   - run several times
 # - set executable bit on command if it doesn't already have it.
 # - diff, if any
 
@@ -13,6 +14,8 @@ Tests a spoj solution.
 import sys
 import argparse
 import subprocess
+from datetime import timedelta
+import time
 from io import StringIO
 import itertools
 
@@ -25,6 +28,8 @@ def parse_options(args):
                         help='Input file for the spoj solution')
     parser.add_argument('expected_output_file', type=str,
                         help='File with the expected output for the spoj solution, given input_file')
+    parser.add_argument('-t', '--time', action='store_true', default=False,
+                        help='Time the execution.\nImplies extra output (the timing info) regardless of the verbose option.\nOnly reports if the execution succeeds.')
     parser.add_argument('-v', '--verbose', action='store_true', default=False,
                         help='Verbose output')
     parsed = parser.parse_args(args)
@@ -34,8 +39,12 @@ def parse_options(args):
 def main(args):
     options = parse_options(args)
 
+    if options.time:
+        start_time = time.time()
     call = subprocess.Popen([options.command], stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     stdout, stderr = call.communicate(open(options.input_file, "rb").read())
+    if options.time:
+        end_time = time.time()
     stdout = stdout.strip()
     stderr = stderr.strip()
 
@@ -58,6 +67,9 @@ def main(args):
         print("Actual:")
         print(stdout.decode())
         return 1
+
+    if options.time:
+        print("Elapsed time: {}".format(timedelta(0, end_time) - timedelta(0, start_time)))
     return 0
 
 
