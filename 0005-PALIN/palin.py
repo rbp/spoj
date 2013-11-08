@@ -28,9 +28,8 @@ def find_palindrome(k):
     len_digits = len(digits)
     # First pass goes up to midpoint, inclusive.
     midpoint = (len_digits // 2) - 1 if len_digits % 2 == 0 else len_digits // 2
-    i = 0
     carry = False
-    while i <= midpoint:
+    for i in range(midpoint+1):
         i_front, i_back = i, -(i+1)
         if carry:
             digits[i_back] = plus_one[digits[i_back]]
@@ -43,7 +42,6 @@ def find_palindrome(k):
         front, back = digits[i_front], digits[i_back]
 
         if back == front:
-            i += 1
             continue
         if back > front:
             # Comparing as strings (since by now both are 1-character strings).
@@ -51,15 +49,12 @@ def find_palindrome(k):
             carry = True
         back = digits[i_back] = front
 
-        # This needs to be correctly updated for the below to work :)
-        i += 1
-
     if not carry:
         # We've reached the midpoint and there's nothing to carry. Done!
         return "".join(digits)
 
     # Picking where we left off, carrying over while needed
-    while carry and i < len_digits:
+    for i in range(i+1, len_digits):
         # Slightly different logic from the above: We're moving from the centre backwards
         i_front, i_back = i, -(i+1)
         d = plus_one[digits[i_back]]
@@ -71,7 +66,8 @@ def find_palindrome(k):
         else:
             digits[i_back] = digits[i_front] = d
             carry = False
-        i += 1
+        if not carry:
+            break
 
     if carry:
         return "1{}1".format("0"*(len(digits)-1))
