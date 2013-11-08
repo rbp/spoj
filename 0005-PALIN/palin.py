@@ -4,7 +4,6 @@
 # TODO:
 # - all in one function (including import)
 # - switch from while to for?
-# - remove "int()" in main()?
 
 def find_palindrome(k):
     # Returns the next palindrome strictly larger than k
@@ -81,9 +80,11 @@ def find_palindrome(k):
 
 def main():    
     import sys
-    t = sys.stdin.readline()
-    for i in range(int(t)):
-        print(find_palindrome(sys.stdin.readline().rstrip()))
+    from itertools import islice
+    all_input = sys.stdin.readlines()
+    # t = int(all_input[0])
+    all_output = [find_palindrome(k.rstrip()) for k in islice(all_input, 1, None)]
+    print("\n".join(all_output))
 
 if __name__ == '__main__':
     main()
