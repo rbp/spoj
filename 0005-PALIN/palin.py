@@ -1,10 +1,6 @@
 #!/usr/bin/env python3
 # http://www.spoj.com/problems/PALIN/
 
-# TODO:
-# - all in one function (including import)
-# - switch from while to for?
-
 def find_palindrome(k):
     # Returns the next palindrome strictly larger than k
     # k and return value are string representations
@@ -88,7 +84,6 @@ if __name__ == '__main__':
 
 
 # DEBUG
-
 def is_next_palindrome(k, digits):
     int_k = int(k)
     str_digits = "".join(digits)
