@@ -23,7 +23,7 @@ def find_palindrome(k):
     
     len_digits = len(digits)
     # First pass goes up to midpoint, inclusive.
-    midpoint = (len_digits // 2) - 1 if len_digits % 2 == 0 else len_digits // 2
+    midpoint = (len_digits + 1) // 2
     carry = False
     for i in range(midpoint+1):
         i_front, i_back = i, -(i+1)
