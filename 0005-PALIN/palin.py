@@ -44,7 +44,7 @@ def find_palindrome(k):
             # Comparing as strings (since by now both are 1-character strings).
             # Thanks, ascii :)
             carry = True
-        back = digits[i_back] = front
+        digits[i_back] = front
 
     if not carry:
         # We've reached the midpoint and there's nothing to carry. Done!
@@ -57,14 +57,11 @@ def find_palindrome(k):
         i_front, i_back = i, -(i+1)
         d = plus_one[digits[i_back]]
         if d == "10":
-            # Do I need to carry from the end of the list again?
-            # I don't think so! I'm already going "up" by carrying here.
             digits[i_back] = digits[i_front] = "0"
             carry = True
         else:
             digits[i_back] = digits[i_front] = d
             carry = False
-        if not carry:
             break
 
     if carry:
