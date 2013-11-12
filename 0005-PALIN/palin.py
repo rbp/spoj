@@ -25,7 +25,7 @@ def find_palindrome(k):
     # First pass goes up to midpoint, inclusive.
     midpoint = (len_digits + 1) // 2
     carry = False
-    for i in range(midpoint+1):
+    for i in range(midpoint):
         i_front, i_back = i, -(i+1)
         if carry:
             digits[i_back] = plus_one[digits[i_back]]
@@ -35,6 +35,7 @@ def find_palindrome(k):
             digits[i_back] = digits[i_front][-1]
             carry = True
 
+        # These indexes may be the same (at midpoint)
         front, back = digits[i_front], digits[i_back]
 
         if back == front:
@@ -52,6 +53,7 @@ def find_palindrome(k):
     # Picking where we left off, carrying over while needed
     for i in range(i+1, len_digits):
         # Slightly different logic from the above: We're moving from the centre backwards
+        # so i_back is now on the first half of the string.
         i_front, i_back = i, -(i+1)
         d = plus_one[digits[i_back]]
         if d == "10":
@@ -70,7 +72,7 @@ def find_palindrome(k):
 
     return "".join(digits)
 
-def main():    
+def main():
     import sys
     from itertools import islice
     all_input = sys.stdin.readlines()
