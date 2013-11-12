@@ -5,6 +5,7 @@ def find_palindrome(k):
     # Returns the next palindrome strictly larger than k
     # k and return value are string representations
     digits = list(k)
+    len_digits = len(k)
     plus_one = {
         "0": "1",
         "1": "2",
@@ -18,13 +19,12 @@ def find_palindrome(k):
         "9": "10"
         }
 
-    # *strictly* larger than k
-    digits[-1] = plus_one[digits[-1]]
-    
-    len_digits = len(digits)
+    # We must find the smallest palindrome *strictly* larger than k
+    # So we start by increasing the last digit by one.
+    carry = True
+
     # First pass goes up to midpoint, inclusive.
     midpoint = (len_digits + 1) // 2
-    carry = False
     for i in range(midpoint):
         i_front, i_back = i, -(i+1)
         if carry:
@@ -68,7 +68,7 @@ def find_palindrome(k):
             break
 
     if carry:
-        return "1{}1".format("0"*(len(digits)-1))
+        return "1" + "0"*(len_digits-1) + "1"
 
     return "".join(digits)
 
