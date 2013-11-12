@@ -9,6 +9,7 @@ Tests a spoj solution.
 #   - run several times
 # - set executable bit on command if it doesn't already have it.
 # - diff, if any
+# - migrate from subprocess to envoy
 
 
 import sys
@@ -39,22 +40,20 @@ def parse_options(args):
 def main(args):
     options = parse_options(args)
 
-    if options.time:
-        start_time = time.time()
+    start_time = time.time()
     call = subprocess.Popen([options.command], stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     stdout, stderr = call.communicate(open(options.input_file, "rb").read())
-    if options.time:
-        end_time = time.time()
+    end_time = time.time()
     stdout = stdout.strip()
     stderr = stderr.strip()
 
     if options.verbose and stdout:
-        print("Output:\n{}\n\nEnd of output.".format(stdout))
+        print("Output:\n{}\n\nEnd of output.".format(stdout.decode()))
     if stderr:
-        print("Error output:\n{}\n\nEnd of error output".format(stderr))
+        print("Error output:\n{}\n\nEnd of error output".format(stderr.decode()))
 
     if call.returncode != 0:
-        print("Command '{}' returned non-zero ({}):".format(command), call.returncode)
+        print("Command '{}' returned non-zero: {}".format(options.command, call.returncode))
         return call.returncode
 
     expected = open(options.expected_output_file, "rb").read()
