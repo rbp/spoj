@@ -31,9 +31,9 @@ def find_palindrome(k):
             digits[i_back] = plus_one[digits[i_back]]
             carry = False
             
-        if digits[i_back] == "10":
-            digits[i_back] = digits[i_front][-1]
-            carry = True
+            if digits[i_back] == "10":
+                digits[i_back] = digits[i_front][-1]
+                carry = True
 
         # These indexes may be the same (at midpoint)
         front, back = digits[i_front], digits[i_back]
