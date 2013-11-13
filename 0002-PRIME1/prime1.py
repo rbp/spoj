@@ -18,13 +18,19 @@ def main():
         for p in pre_computed:
             if p*p > n:
                 break
-            start = (m - 1 + p - ((m - 1) % p)) if p < m else 2*p
+            # We start sieving at the first multiple of p that's >= m.
+            # Except, of course, p itself.
+            # This has 3 parts:
+            # - p * (m//p): p * how many times p can fit in m. Can be 0 (m < p), 1 (m == p) or > 1.
+            # - p * bool(m % p): if m % p == True (i.e., not 0), p < m and we need an extra p to go over m.
+            # - p * (not (m - 1) // p): if m <= p, the first 2 parts will give us p, and we want 2p
+            #start = p * (m // p) + p * (not not m % p)  + p * (not (m - 1) // p)
+            # Simplifying:
+            start = p * (m // p + bool(m % p)  + (not (m - 1) // p))
             for mult in range(start, n+1, p):
                 sieve[mult-m] = False
 
         output.append("\n".join(str(i+m) for i, prime in enumerate(sieve) if prime) + '\n\n')
     print("".join(output))
 
-
-if __name__ == '__main__':
-    main()
+main()
