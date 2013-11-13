@@ -13,7 +13,8 @@ def main():
     
     for i in range(len(in_lines)-1):
         m, n = map(int, in_lines[i+1].split())
-        sieve = [m != 1] + [True]*(n-m)
+        sieve = [True]*(n-m+1)
+        sieve[0] = (m != 1)
         for p in pre_computed:
             if p*p > n:
                 break
