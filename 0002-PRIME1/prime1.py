@@ -13,7 +13,7 @@ def main():
     
     for i in range(len(in_lines)-1):
         m, n = map(int, in_lines[i+1].split())
-        sieve = [[1, None][m == 1]] + list(range(2, (n-m)+2))
+        sieve = [m != 1] + [True]*(n-m)
         for p in pre_computed:
             if p*p > n:
                 break
@@ -21,7 +21,7 @@ def main():
             for mult in range(start, n+1, p):
                 sieve[mult-m] = False
 
-        output.append("\n".join(str(m + index - 1) for index in filter(None, sieve)) + '\n\n')
+        output.append("\n".join(str(i+m) for i, prime in enumerate(sieve) if prime) + '\n\n')
     print("".join(output))
 
 
